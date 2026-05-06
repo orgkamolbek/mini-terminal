@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>mini-Terminal v1.0</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #output {
+            flex-grow: 1;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-bottom: 10px;
+        }
+        .input-line {
+            display: flex;
+            align-items: center;
+        }
+        .prompt {
+            color: #00ff41;
+            margin-right: 10px;
+        }
+        input {
+            background: transparent;
+            border: none;
+            color: #00ff41;
+            font-family: inherit;
+            font-size: inherit;
+            outline: none;
+            flex-grow: 1;
+        }
+        .error { color: #ff4d4d; }
+        .success { color: #3498db; }
+    </style>
+</head>
+<body>
+
+    <div id="output">JARVIS OS [Version 1.0.4]
+(c) 2026 Stark Industries. Barcha huquqlar himoyalangan.
+
+Yordam uchun 'help' deb yozing.</div>
+
+    <div class="input-line">
+        <span class="prompt">C:\Users\Admin></span>
+        <input type="text" id="commandInput" autofocus>
+    </div>
+
+    <script>
+        const input = document.getElementById('commandInput');
+        const output = document.getElementById('output');
+
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const cmd = input.value.toLowerCase().trim();
+                executeCommand(cmd);
+                input.value = '';
+            }
+        });
+
+        function print(text, className = '') {
+            const div = document.createElement('div');
+            div.className = className;
+            div.textContent = text;
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function executeCommand(cmd) {
+            print("C:\\Users\\Admin> " + cmd);
+
+            if (cmd === 'help') {
+                print("Mavjud buyruqlar: \n- help: Yordam \n- about: Loyiha haqida \n- date: Vaqtni ko'rish \n- clear: Ekranini tozalash \n- hack: Maxfiy rejim");
+            } 
+            else if (cmd === 'about') {
+                print("Ushbu terminal Kamolbek tomonidan Jarvis tizimi uchun yaratildi.", "success");
+            }
+            else if (cmd === 'date') {
+                print("Hozirgi vaqt: " + new Date().toLocaleString());
+            }
+            else if (cmd === 'clear') {
+                output.innerHTML = '';
+            }
+            else if (cmd === 'hack') {
+                print("SISTEMAGA KIRISH... [■■■■■■■■■■] 100%", "error");
+                print("Xavfsizlik devori chetlab o'tildi. Xush kelibsiz, Janob.");
+            }
+            else if (cmd === '') {
+                // Hech narsa yozilmasa
+            }
+            else {
+                print("'" + cmd + "' buyrug'i topilmadi. Yordam uchun 'help' yozing.", "error");
+            }
+        }
+    </script>
+</body>
+</html>
